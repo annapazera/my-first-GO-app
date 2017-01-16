@@ -5,11 +5,18 @@ import (
 	"html/template"
 )
 
-func handler (w http.ResponseWriter, r *http.Request) {
-	t, _ := template.ParseFiles("view.html")
-	t.Execute(w, "Hello World!")
+func handler1(w http.ResponseWriter, r *http.Request) {
+	t, _ := template.ParseFiles("t1.html", "t2.html")
+	t.Execute(w, "Anna")
 }
+
+func handler2(w http.ResponseWriter, r *http.Request) {
+	t, _ := template.ParseFiles("t1.html", "t2.html")
+	t.ExecuteTemplate(w, "t2.html", "Golang")
+}
+
 func main() {
-	http.HandleFunc("/view", handler)
+	http.HandleFunc("/t1", handler1)
+	http.HandleFunc("/t2", handler2)
 	http.ListenAndServe(":8080", nil)
 }
